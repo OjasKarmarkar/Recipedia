@@ -3,21 +3,30 @@ const GoogleStrategy = require("passport-google-oauth20");
 const keys = require("./keys");
 const User = require("../models/user-model");
 
-console.log(keys.google.clientID);
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id).then((user) => {
+    done(null, user.id);
+  });
+});
 
 passport.use(
   new GoogleStrategy(
     {
       // google strat
       callbackURL: "/auth/google/redirect",
-      clientID:
-        "826748210888-knan7uahchf4keet0v6b7bfhj01ka10j.apps.googleusercontent.com",
-      clientSecret: "34uE-VLB6FSxrWXrQLLX9Nl4",
+      clientID: keys.google.clientID,
+      clientSecret: keys.google.clientSecret,
     },
     (accessToken, refreshToken, profile, done) => {
+      console.log(profile);
       User.findOne({ googleID: profile.id }).then((currentUser) => {
         if (currentUser) {
-            // check if user exists already
+          done(null, currentUser);
+          // check if user exists already
         } else {
           new User({
             username: profile.displayName,
@@ -26,6 +35,7 @@ passport.use(
           })
             .save()
             .then((newUser) => {
+              done(null, newUser);
               //console.log("new User" + newUser);
             });
         }

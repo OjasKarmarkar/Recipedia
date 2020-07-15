@@ -4,9 +4,9 @@ const cors = require('cors')
 const mongoose = require('mongoose');
 const app = express()
 const authRoutes = require('./routes/auth-routes')
-const config = require('config');
-const passportSetup = require('./config/passport-setup')
 const passport = require('passport')
+const cookieSession = require('cookie-session')
+const keys = require("./config/keys");
 const apiPort = 3000
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -16,11 +16,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth' , authRoutes)
 
+app.use(cookieSession({
+  maxAge: 24*60*60*1000,
+  keys:[keys.session.cookieKey]
+}))
+
 app.get('/', (req, res) => {
     res.send('Hello World!')
+    req.logout()
 })
 
-const db = config.get('mongoURI');
+const db = keys.mongodb.dbURI
 
 mongoose
   .connect(db, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
