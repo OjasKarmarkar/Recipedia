@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth-routes')
 const passport = require('passport')
 const cookieSession = require('cookie-session')
 const keys = require("./config/keys");
+const passportSetup = require('./config/passport-setup');
 const apiPort = 3000
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -15,7 +16,6 @@ app.use(bodyParser.json())
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth' , authRoutes)
-
 app.use(cookieSession({
   maxAge: 24*60*60*1000,
   keys:[keys.session.cookieKey]
