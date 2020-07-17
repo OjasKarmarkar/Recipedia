@@ -1,10 +1,9 @@
 const Recipe = require("../models/recipe-model");
-
+const Keys = require('../config/keys')
 // 1. CREATE RECIPE API //
 
 createRecipe = (req, res) => {
   const body = req.body;
-  console.log(body)
   if (!body) {
     return res.status(400).json({
       success: false,
@@ -34,9 +33,17 @@ createRecipe = (req, res) => {
     });
 };
 
+getAllRecipes = (req , res) =>{
+  console.log(req.headers)
+  return res.status(200).json({
+    message : "Done"
+  })
+}
+
 
 
 // EXPORT //
 module.exports ={
-    createRecipe
+    createRecipe ,
+    getAllRecipes
 }
