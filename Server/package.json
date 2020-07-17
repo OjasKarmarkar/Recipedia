@@ -20,14 +20,20 @@
   },
   "homepage": "https://github.com/OjasKarmarkar/Recipedia#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.0",
     "config": "^3.3.1",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.9.24",
     "passport": "^0.4.1",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "react-router-dom": "^5.2.0",
+    "react-table": "^7.2.2",
+    "server": "^1.0.29",
+    "styled-components": "^5.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
