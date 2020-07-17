@@ -3,7 +3,7 @@ const RecipeApis = require('./Api')
 const Recipe = require("../models/recipe-model");
 
 router.post('/create', RecipeApis.createRecipe)
-router.post('/getAll', RecipeApis.getAllRecipes)
+router.get('/getAll', RecipeApis.getAllRecipes)
 router.get('/test', async (req, res) => {
     console.log(req.headers);
     console.log(req.body.id);
