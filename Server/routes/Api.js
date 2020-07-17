@@ -1,5 +1,5 @@
 const Recipe = require("../models/recipe-model");
-const Keys = require('../config/keys')
+const Keys = require("../config/keys");
 // 1. CREATE RECIPE API //
 
 createRecipe = (req, res) => {
@@ -17,7 +17,8 @@ createRecipe = (req, res) => {
     return res.status(400).json({ success: false, error: err });
   }
 
-  recipe.save()
+  recipe
+    .save()
     .then(() => {
       return res.status(200).json({
         success: true,
@@ -33,17 +34,23 @@ createRecipe = (req, res) => {
     });
 };
 
-getAllRecipes = (req , res) =>{
-  console.log(req.headers)
-  return res.status(200).json({
-    message : "Done"
-  })
-}
-
-
+getAllRecipes = async (req, res) => {
+  console.log(req.headers);
+  await Recipe.find({}, (err, recipes) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err });
+    }
+    if (!recipes.length) {
+      return res
+        .status(404)
+        .json({ success: false, error: `Recipe not found` });
+    }
+    return res.status(200).json({ success: true, data: recipes });
+  }).catch((err) => console.log(err));
+};
 
 // EXPORT //
-module.exports ={
-    createRecipe ,
-    getAllRecipes
-}
+module.exports = {
+  createRecipe,
+  getAllRecipes,
+};
