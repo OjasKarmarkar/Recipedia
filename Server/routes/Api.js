@@ -16,6 +16,8 @@ createRecipe = (req, res) => {
   if (!recipe) {
     return res.status(400).json({ success: false, error: err });
   }
+ 
+ recipe['creation_date'] = Date.now()
 
   recipe
     .save()
@@ -35,7 +37,7 @@ createRecipe = (req, res) => {
 };
 
 getAllRecipes = async (req, res) => {
-  console.log(req.headers);
+  // console.log(req.headers);
   await Recipe.find({}, (err, recipes) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });

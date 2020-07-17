@@ -11,7 +11,7 @@ recipeSchema = new Schema({
     required: true,
   },
   likes: { type: Number, default: 0 },
-  creation_date: { type: Date, required: true },
+  creation_date: { type: Date},
   is_veg: { type: Boolean, required: true },
   rating: { type: Number, default: 5 },
   ingredients: { type: Array, required: true },
