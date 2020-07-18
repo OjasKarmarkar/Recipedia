@@ -1,25 +1,21 @@
 import React from 'react';
 import logo from './logo.png';
 import './App.css';
+import {BrowserRouter as Router , Route , Switch} from 'react-router-dom';
+import {Home} from '../src/Ui/Home';
+import {Browse} from '../src/Ui/Browse';
+import {About} from '../src/Ui/About';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Recipedia
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+     <Router>
+       <Route exact path='/' component={Home}></Route>
+       <Route path='/Browse' component={Browse}></Route>
+       <Route path='/About' component={About}></Route>
+     </Router>
+    </React.Fragment>
   );
 }
 
