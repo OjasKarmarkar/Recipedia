@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+
+
 class Navigation extends React.Component {
   static propTypes = {
     authenticated: PropTypes.bool.isRequired,
@@ -11,7 +13,9 @@ class Navigation extends React.Component {
     return (
       <div>
       
-      <nav className="navbar navbar-expand-lg navbar-light bg-white">
+      <nav className="navbar navbar-expand-lg navbar-light navbar-trans" style={{
+        background: 'transparent'
+      }}>
         <a className="navbar-brand font-weight-bold" href="/">
           <h4>Recipedia.</h4>
         </a>

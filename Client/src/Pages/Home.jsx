@@ -2,14 +2,13 @@ import Navigation from "../Components/Navigation";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 
-let imgUrl = '../public/background.jpg'
-let styles = {
-    root: {
-       backgroundImage: `url(${ imgUrl })` ,
-       backgroundRepeat  : 'no-repeat',
-       backgroundPosition: 'center',
-  }
-}
+const imgMyimageexample = require('../background.jpg');
+const divStyle = {
+  width: '100%',
+  height: '800px',
+  backgroundImage: `url(${imgMyimageexample})`,
+  backgroundSize: 'cover'
+};
 export default class Home extends Component {
   state = {
     user: {},
@@ -52,12 +51,13 @@ export default class Home extends Component {
   render() {
     const { authenticated } = this.state;
     return (
-      <div style={styles}>
+      <div style={divStyle}>
         <Navigation
           authenticated={authenticated}
           user = {this.state.user}
           handleNotAuthenticated={this._handleNotAuthenticated}
         />
+        <img sc = './background.jpg'></img>
         
         {/* <div>
           {!authenticated ? (
