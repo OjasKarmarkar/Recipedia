@@ -5,6 +5,7 @@ class Navigation extends React.Component {
   static propTypes = {
     authenticated: PropTypes.bool.isRequired,
   };
+ 
   render() {
     const { authenticated } = this.props;
     return (
@@ -25,6 +26,7 @@ class Navigation extends React.Component {
         </button>
         <ul class="navbar-nav ml-auto">
           {authenticated ? (
+            
             <li onClick={this._handleLogoutClick}>Logout</li>
           ) : (
             <li onClick={this._handleSignInClick}>Login</li>
