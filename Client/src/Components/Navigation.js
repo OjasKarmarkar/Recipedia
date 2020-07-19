@@ -9,6 +9,8 @@ class Navigation extends React.Component {
   render() {
     const { authenticated } = this.props;
     return (
+      <div>
+      
       <nav className="navbar navbar-expand-lg navbar-light bg-white">
         <a className="navbar-brand font-weight-bold" href="/">
           <h4>Recipedia.</h4>
@@ -24,15 +26,18 @@ class Navigation extends React.Component {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+        
         <ul class="navbar-nav ml-auto">
+       
           {authenticated ? (
-            
+           
             <li onClick={this._handleLogoutClick}>Logout</li>
           ) : (
             <li onClick={this._handleSignInClick}>Login</li>
           )}
         </ul>
       </nav>
+      </div>
     );
   }
   _handleSignInClick = () => {
