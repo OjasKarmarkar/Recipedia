@@ -1,13 +1,23 @@
-import Header from "../Components/Header";
+import Navigation from "../Components/Navigation";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 
+const imgMyimageexample = require('../background.jpg');
+const divStyle = {
+  width: '100%',
+  height: '800px',
+  backgroundImage: `url(${imgMyimageexample})`,
+  backgroundSize: 'cover'
+};
 export default class Home extends Component {
   state = {
     user: {},
     error: null,
     authenticated: false
   };
+
+
+
 
   componentDidMount() {
     fetch("http://localhost:3000/auth/login/success", {
@@ -20,7 +30,7 @@ export default class Home extends Component {
       }
     })
       .then(response => {
-        console.log(response)
+       
         if (response.status === 200) return response.json();
         throw new Error("failed to authenticate user");
       })
@@ -41,12 +51,15 @@ export default class Home extends Component {
   render() {
     const { authenticated } = this.state;
     return (
-      <div>
-        <Header
+      <div style={divStyle}>
+        <Navigation
           authenticated={authenticated}
+          user = {this.state.user}
           handleNotAuthenticated={this._handleNotAuthenticated}
         />
-        <div>
+        <img sc = './background.jpg'></img>
+        
+        {/* <div>
           {!authenticated ? (
             <h1>Welcome!</h1>
           ) : (
@@ -55,7 +68,7 @@ export default class Home extends Component {
               <h2>Welcome {this.state.user.name}!</h2>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     );
   }
