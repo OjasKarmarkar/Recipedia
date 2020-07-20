@@ -60,16 +60,18 @@ export default class Home extends Component {
         />
         <img sc = './background.jpg'></img>
         
-        {/* <div>
+        <div  className='mt-5'>
           {!authenticated ? (
-            <h1>Welcome!</h1>
+            <div className='mt-5 ml-3'>
+            <h3>Browse Exclusive Recipes  </h3>
+            </div>
+          
           ) : (
-            <div>
+            <div >
               <h1>You have login succcessfully!</h1>
-              <h2>Welcome {this.state.user.name}!</h2>
             </div>
           )}
-        </div> */}
+        </div>
       </div>
     );
   }
