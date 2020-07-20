@@ -13,7 +13,8 @@ recipeSchema = new Schema({
   likes: { type: Number, default: 0 },
   creation_date: { type: Date},
   is_veg: { type: Boolean, required: true },
-  rating: { type: Number, default: 5 },
+  rating: { type: Number, default: 0 },
+  ratingCount: {type: Number, default: 0},
   ingredients: { type: Array, required: true },
   video_link: {
     type: String,
