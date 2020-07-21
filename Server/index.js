@@ -24,7 +24,7 @@ app.use(passport.session());
 
 app.use(
   cors({
-    origin: "http://localhost:8000", // allow to server to accept request from different origin
+    origin: "http://localhost:55812", //ADD LOCAL URL HERE , FROM WHICH U WILL CALL API
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // allow session cookie from browser to pass through
   })
