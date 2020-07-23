@@ -13,6 +13,7 @@ const apiPort = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static('./public'));
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000,

@@ -1,8 +1,46 @@
 const Recipe = require("../models/recipe-model");
 const Keys = require("../config/keys");
-// 1. CREATE RECIPE API //
+const User = require('../models/user-model')
 
+
+login = (req, res) => {
+  const body = req.body
+  if (!body) {
+    return res.status(400).json({
+      success: false,
+      error: "You must provide an Id",
+    });
+  }
+
+  User.findOne({ googleID: body.id}).then((currentUser) => {
+    if (currentUser) {
+      return res.status(200).json({
+        success: true,
+        message: "Logged In",
+      });
+      // check if user exists already
+    } else {
+      new User({
+        username: profile.displayName,
+        googleID: profile.id,
+        profilePic: profile._json.picture,
+      })
+        .save()
+        .then((newUser) => {
+          return res.status(200).json({
+            success: true,
+            message: "Signed Up!",
+          });
+          //console.log("new User" + newUser);
+        });
+      }
+  });
+}
+
+
+// 1. CREATE RECIPE API //
 createRecipe = (req, res) => {
+  console.log(req.file);
   const body = req.body;
   if (!body) {
     return res.status(400).json({
@@ -120,5 +158,6 @@ module.exports = {
   getAllRecipes,
   search,
   rate,
-  like
+  like,
+  login
 };

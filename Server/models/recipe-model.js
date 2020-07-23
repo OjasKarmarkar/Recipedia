@@ -17,6 +17,7 @@ recipeSchema = new Schema({
   ratingCount: {type: Number, default: 0},
   ingredients: { type: Array, required: true },
   time: { type: Number, required: true },
+  recipePic:{type:String , required : false},
   video_link: {
     type: String,
   },
