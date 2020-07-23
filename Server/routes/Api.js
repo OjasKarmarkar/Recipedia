@@ -122,19 +122,19 @@ search = async (req, res) => {
 
 rate = async (req, res) => {
   var finalRating;
-  if (!req.query.id) {
+  if (!req.body.id) {
     return res
       .status(400)
       .json({ success: false, error: `Need recipe ID to rate` });
-  } else if (!req.query.rating) {
+  } else if (!req.body.rating) {
     return res.status(400).json({ success: false, error: `Rating is needed` });
   }
-  await Recipe.findById(req.query.id, (err, recipe) => {
+  await Recipe.findById(req.body.id, (err, recipe) => {
     // ((Overall Rating * Total Rating) + new Rating) / (Total Rating + 1)
     //console.log(`((${typeof recipe.rating} * ${typeof recipe.ratingCount}) + ${typeof req.query.rating}) / ((${typeof recipe.ratingCount} + 1))`);
     //console.log(((recipe.rating * recipe.ratingCount) + req.query.rating) / ((recipe.ratingCount + 1)));
     recipe.rating =
-      (recipe.rating * recipe.ratingCount + parseInt(req.query.rating)) /
+      (recipe.rating * recipe.ratingCount + parseInt(req.body.rating)) /
       (recipe.ratingCount + 1);
     recipe.ratingCount += 1;
     finalRating = recipe.rating;
@@ -150,13 +150,13 @@ rate = async (req, res) => {
 };
 
 like = async (req, res) => {
-  if (!req.query.id) {
+  if (!req.body.id) {
     return res
       .status(400)
       .json({ success: false, error: `Need recipe ID to like` });
   }
 
-  await Recipe.findById(req.query.id, (err, recipe) => {
+  await Recipe.findById(req.body.id, (err, recipe) => {
     recipe.likes += 1;
     recipe.save();
     return res
@@ -164,7 +164,7 @@ like = async (req, res) => {
       .json({
         success: true,
         message: `Recipe likes updated`,
-        rating: recipe.likes,
+        likes: recipe.likes,
       });
   });
 };
