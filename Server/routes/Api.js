@@ -62,6 +62,7 @@ createRecipe = (req, res) => {
   }
 
   recipe["creation_date"] = Date.now();
+  recipe['recipePic'] = "/uploads/" + req.file.originalname
 
   recipe
     .save()
