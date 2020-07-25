@@ -4,7 +4,7 @@ const User = require("../models/user-model");
 
 login = (req, res) => {
   const body = req.body;
-  console.log(!body)
+  console.log(!body);
   if (!body) {
     return res.status(400).json({
       success: false,
@@ -32,7 +32,8 @@ login = (req, res) => {
                 message: "Signed Up!",
               });
               //console.log("new User" + newUser);
-            }).catch((error) => {
+            })
+            .catch((error) => {
               return res.status(400).json({
                 error,
                 message: "User not created!",
@@ -62,7 +63,7 @@ createRecipe = (req, res) => {
   }
 
   recipe["creation_date"] = Date.now();
-  recipe['recipePic'] = "/uploads/" + req.file.originalname
+  recipe["recipePic"] = "/uploads/" + req.file.originalname;
 
   recipe
     .save()
@@ -123,7 +124,7 @@ search = async (req, res) => {
 
 rate = async (req, res) => {
   var finalRating;
-  if (!req.body.id) {
+  if (!req.body.id || !req.body.userID) {
     return res
       .status(400)
       .json({ success: false, error: `Need recipe ID to rate` });
@@ -140,32 +141,64 @@ rate = async (req, res) => {
     recipe.ratingCount += 1;
     finalRating = recipe.rating;
     recipe.save();
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: `Recipe rating updated`,
-        rating: finalRating,
+    User.findOne({ googleID: req.body.userID })
+      .then((user) => {
+        if (user != null) {
+          user["ratings"].push(req.body.id);
+          user.save();
+          return res.status(200).json({
+            success: true,
+            message: `Recipe rating updated`,
+            rating: finalRating,
+          });
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: `User Not Found`,
+          });
+        }
+      })
+      .catch((err) => {
+        return res.status(400).json({
+          success: false,
+          message: `User Not Found`,
+        });
       });
   });
 };
 
 like = async (req, res) => {
-  if (!req.body.id) {
+  if (!req.body.id || !req.body.userID) {
     return res
       .status(400)
-      .json({ success: false, error: `Need recipe ID to like` });
+      .json({ success: false, error: `Need recipe & user ID to like` });
   }
 
   await Recipe.findById(req.body.id, (err, recipe) => {
     recipe.likes += 1;
     recipe.save();
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: `Recipe likes updated`,
-        likes: recipe.likes,
+    User.findOne({ googleID: req.body.userID })
+      .then((user) => {
+        if (user != null) {
+          user["liked"].push(req.body.id);
+          user.save();
+          return res.status(200).json({
+            success: true,
+            message: `Recipe likes updated`,
+            likes: recipe.likes,
+          });
+        } else {
+          return res.status(400).json({
+            success: false,
+            message:'User Not Found',
+          });
+        }
+      })
+      .catch((err) => {
+        return res.status(400).json({
+          success: false,
+          message: `User Not Found`,
+        });
       });
   });
 };
