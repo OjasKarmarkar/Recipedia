@@ -215,8 +215,8 @@ getLiked = async (req, res) => {
         const liked = user["liked"];
         if (liked.length == 0) {
           return res
-          .status(200)
-          .json({ success: false, message: `You Have No Liked Recipes!` });
+            .status(200)
+            .json({ success: false, message: `You Have No Liked Recipes!` });
         } else {
           Recipe.find()
             .where("_id")
@@ -238,8 +238,31 @@ getLiked = async (req, res) => {
     })
     .catch((err) => {
       return res
-      .status(404)
-      .json({ success: false, message: `User not found` });
+        .status(404)
+        .json({ success: false, message: `User not found` });
+    });
+};
+
+getUser = (req, res) => {
+  if (!req.body.userID) {
+    return res
+      .status(400)
+      .json({ success: false, error: `Need User ID to get details` });
+  }
+  User.findOne({ googleID: req.body.userID })
+    .then((user) => {
+      if (user != null) {
+        return res.status(200).json({ success: true, data: user });
+      } else {
+        return res
+        .status(404)
+        .json({ success: false, message: `User not found` });
+      }
+    })
+    .catch((err) => {
+      return res
+        .status(404)
+        .json({ success: false, message: `User not found` });
     });
 };
 
@@ -248,6 +271,7 @@ module.exports = {
   createRecipe,
   getAllRecipes,
   getLiked,
+  getUser,
   search,
   rate,
   like,
