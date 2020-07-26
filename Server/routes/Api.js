@@ -190,7 +190,7 @@ like = async (req, res) => {
         } else {
           return res.status(400).json({
             success: false,
-            message:'User Not Found',
+            message: "User Not Found",
           });
         }
       })
@@ -203,30 +203,51 @@ like = async (req, res) => {
   });
 };
 
-getRecipeById = async (req, res) => {
-  if(!req.body.ids){
+getLiked = async (req, res) => {
+  if (!req.body.userID) {
     return res
       .status(400)
-      .json({ success: false, error: `Need recipe IDs to get details` });
+      .json({ success: false, error: `Need User ID to get details` });
   }
-  console.log(req.body.ids);
-  Recipe.find().where('_id').in(req.body.ids).exec((err, records) => {
-    if(records.length == 0){
+  User.findOne({ googleID: req.body.userID })
+    .then((user) => {
+      if (user != null) {
+        const liked = user["liked"];
+        if (liked.length == 0) {
+          return res
+          .status(200)
+          .json({ success: false, message: `You Have No Liked Recipes!` });
+        } else {
+          Recipe.find()
+            .where("_id")
+            .in(liked)
+            .exec((err, records) => {
+              if (records.length == 0) {
+                return res
+                  .status(404)
+                  .json({ success: false, message: `Recipes not found` });
+              }
+              return res.status(200).json({ success: true, data: records });
+            });
+        }
+      } else {
+        return res
+          .status(404)
+          .json({ success: false, message: `Recipes not found` });
+      }
+    })
+    .catch((err) => {
       return res
       .status(404)
-      .json({ success: false, message: `Recipes not found`});
-    }
-    return res
-      .status(200)
-      .json({ success: true, data: records});
-  });
-}
+      .json({ success: false, message: `User not found` });
+    });
+};
 
 // EXPORT //
 module.exports = {
   createRecipe,
   getAllRecipes,
-  getRecipeById,
+  getLiked,
   search,
   rate,
   like,
