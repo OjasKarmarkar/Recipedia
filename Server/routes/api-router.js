@@ -16,6 +16,7 @@ var upload = multer({storage:storage})
 
 router.post('/create', upload.single('image') ,RecipeApis.createRecipe)
 router.get('/getAll', RecipeApis.getAllRecipes)
+router.get('/getById', RecipeApis.getRecipeById)
 router.get('/search', RecipeApis.search)
 router.post('/rate', RecipeApis.rate)
 router.post('/like', RecipeApis.like)

@@ -203,10 +203,30 @@ like = async (req, res) => {
   });
 };
 
+getRecipeById = async (req, res) => {
+  if(!req.body.ids){
+    return res
+      .status(400)
+      .json({ success: false, error: `Need recipe IDs to get details` });
+  }
+  console.log(req.body.ids);
+  Recipe.find().where('_id').in(req.body.ids).exec((err, records) => {
+    if(records.length == 0){
+      return res
+      .status(404)
+      .json({ success: false, message: `Recipes not found`});
+    }
+    return res
+      .status(200)
+      .json({ success: true, data: records});
+  });
+}
+
 // EXPORT //
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getRecipeById,
   search,
   rate,
   like,
