@@ -10,4 +10,4 @@ Nodejs backend for storing recipes
  * `/search`
  * `/rate`
  * `/like`
- * `/getLiked
+ * `/getLiked`
